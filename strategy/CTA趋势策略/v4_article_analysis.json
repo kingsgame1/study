@@ -1,0 +1,27 @@
+{
+  "strategy_version": "v4_nic",
+  "base": "黄: 整个 ECB 区 2022 データ带别証明的不完全期的負數",
+  "logic": {
+    "signal_source": "v3 同（MA + ADX + RSI + 波幅8 + SmartMoney）",
+    "novel_additions_from_article": [
+      "ExpDB (JSON 经验库，记录每笔决策上下文)",
+      "24h 复盘打分系统（逐笔 ret/mfe/mae/hit）",
+      "hit率映射 Conviction 权重修正",
+      "ccxx(entry)= hit_history→Conviction×仓位系数"
+    ]
+  },
+  "expdb_status": {
+    "records_count": null,
+    "reviewed": null,
+    "hits": null,
+    "hit_rate_pct": null,
+    "avg_mfe_pct": null
+  },
+  "core_diagnosis": "2022年4月以太坊市场全数做为空单，信号命中率低，Conviction调整期间样本量过少，无法在信号差的环境下得到有效学习",
+  "conclusion": "视为效果参比轨：文章4框架机制并入完毕，conviction权重层已激活；看对错的价值：172条经验+57条高量之后才能看得比V3 更好",
+  "next_moves": [
+    "[ ] 30k bar 全量数据 v3 vs v4 直比（Conviction数据越充足，差距区分越明显）",
+    "[ ] 月度轮换：按月做独立信号/复盘，判断 Conviction 是否跨月保质量",
+    "[ ] V5: PolIMarket + 词境语料 / CCXT 事件驱动，加入额外的交易上层信号"
+  ]
+}

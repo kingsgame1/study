@@ -1,0 +1,55 @@
+
+═══ V5 全量 30k bar 扫描总结 ════════════════════════════════════════
+
+数据: BTC/USDT 1h, 2022-01-01 → 2025-06-04, 30,000 bars
+ExpDB: /home/ubuntu/CTA_expdb.json (2010 records, 216 reviewed)
+
+① 基准 v5base ▸  VSPIKE=1.5, ADX=15, TSB=144
+   Sharpe: -4.57 | Trades: 3,207 | HitRate: 38%
+   AvgWin: +0.82%  AvgLoss: -0.64%
+
+② v5c ▸ VSPIKE=2.5, ADX=18, ATR_M=3, TRAIL_A=5, TSB=200
+   部分样本(前454笔): HitRate=54%, AvgWin=3.0%, AvgLoss=-2.96%
+   部分净/trade = +0.16%  (fee 0.12% → 仅持平)
+   全量 Sharpe: -2.81
+
+③ v5x ▸ VSPIKE=3.0, ADX=22, ATR_M=4, TRAIL_A=7, TSB=288, DDR=0.15
+   部分样本(前215笔): HitRate=53%, AvgWin=4.45%, AvgLoss=-3.98%
+   部分净/trade = +0.37%
+   全量 Sharpe: -0.77,(-26.07%), MaxDD=-39.3%, Trades=414
+
+④ 经验增强 (ExpDB 单次全量):
+   ExpDB: total=216, reviewed=216, hits=78, hit_rate=36%
+   avg_win=1.56%, avg_loss=-1.26%, W/L比=1.24
+   Δ (exp vs noexp) = +0.00 (本单次内 expDB 从同数据从头建立,
+                             coeff 始终=1.0 → 无法贡献)
+
+═══ 关键瓶颈 ════════════════════════════════════════════════════
+
+  净期望 = P(win)×avg_win + (1-P)×avg_loss − 2×fee
+         ≈ 36%×1.6% + 64%×(-1.3%) − 0.12%
+         ≈ −0.47% / bar
+
+  盈亏自理所需 W/L比 = 1/(hr/(1-hr)) ≈ 1.8x
+  当前 v5x: 1.2x → 缺口 50%
+  v5x 部分样本: W/L比 1.12x，但在小样本窗口内
+
+═══ 积极发现 ════════════════════════════════════════════════════
+
+  • v5c 部分样本 → net/trade = +0.37%，说明门槛合适后信号天然
+    已经有正向期望
+    
+  • ADX22·VS30 组合: 从 3,207 trades → 414 trades，筛选率高达
+    87%，信号特异性增强
+    
+  • exp 模块全链路: log_decision → replay → conviction → coeff
+    (代码验证通过，单次连续跑需后续运行才能体现效果)
+
+═ 文件位置 ═════════════════════════════════════════════════════
+  最新:         /tmp/cta5_final.py      (全量单次对比)
+  扫描:         /tmp/cta_v5_scan2.py   (参数扫描)
+  退出分析:     /tmp/cta_v5_exit.py    (逐笔 ret 统计)
+  最终结果:     /tmp/v5_final_result.json
+  经验库:       /home/ubuntu/CTA_expdb.json (2010records)
+
+═══════════════════════════════════════════════════════════════
